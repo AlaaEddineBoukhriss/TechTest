@@ -33,9 +33,21 @@
       group: root
       mode: '0644'
     notify: restart nginx
+    
+  - name: "sync website"
+    synchronize:
+      src: templates/
+      dest: /var/www/{{ domain }}
+      archive: no
+      checksum: yes
+      recursive: yes
+      delete: yes
+    become: no
 
   handlers:
     - name: restart nginx
       service:
         name: nginx
         state: restarted
+
+
